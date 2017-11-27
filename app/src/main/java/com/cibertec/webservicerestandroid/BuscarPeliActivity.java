@@ -23,18 +23,22 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 public class BuscarPeliActivity extends AppCompatActivity implements View.OnClickListener{
 
-    TextView txtpeli,txtsala;
+    TextView txtpeli,txtsala,txtinicio,txtfin,txtlocal;
     EditText edtdni;
     Button btn;
     int id;
     ProgressDialog pd;
     String resultado="";
-    private void inniciaComponenet(){
+    private void iniciaComponente(){
         txtpeli = (TextView)findViewById(R.id.txtpeli);
         txtsala = (TextView)findViewById(R.id.txtsala);
+        txtinicio = (TextView)findViewById(R.id.txtInicio);
+        txtfin = (TextView)findViewById(R.id.txtFin);
+        txtlocal = (TextView)findViewById(R.id.txtlocal);
         edtdni = (EditText)findViewById(R.id.edtdni);
         btn = (Button)findViewById(R.id.btngrabar);
         btn.setOnClickListener(this);
@@ -43,11 +47,15 @@ public class BuscarPeliActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buscar_peli);
-        inniciaComponenet();
+        iniciaComponente();
 
         Intent rec=getIntent();
         PeliculaBean obj=(PeliculaBean)rec.getSerializableExtra("obj");
         txtpeli.setText(obj.getNombre());
+        txtsala.setText(obj.getSala());
+        txtinicio.setText(obj.getInicio());
+        txtfin.setText(obj.getFin());
+        txtlocal.setText(obj.getIdlocal());
         id=obj.getIdpelicula();
     }
 
@@ -66,7 +74,7 @@ public class BuscarPeliActivity extends AppCompatActivity implements View.OnClic
                 HttpContext ctx=new BasicHttpContext();
                 String URL="http://192.168.8.108:8080/WebServiceRestInicial/rest/miservicio/grabareserva";
                 HttpPost post=new HttpPost(URL);
-                String data="{dni:\"1\",idpeli:\"2\"}";
+                String data="{dni:"+edtdni.getText()+",idpeli:"+id+"}";
                 StringEntity ent=new StringEntity(data);
                 post.setEntity(ent);
                 post.setHeader("Accept","application/json");

@@ -135,6 +135,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         bean=new PeliculaBean();
                         bean.setIdpelicula(Integer.parseInt(jsonrow.getString("idpelicula")));
                         bean.setNombre(jsonrow.getString("nombre"));
+                        bean.setSala(jsonrow.getString("sala"));
+                        bean.setInicio(jsonrow.getString("inicio"));
+                        bean.setFin(jsonrow.getString("fin"));
+                        bean.setIdlocal(jsonrow.getString("idlocal"));
                         peliculas.add(bean);
                     }
                 }else{
@@ -142,6 +146,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     bean=new PeliculaBean();
                     bean.setIdpelicula(Integer.parseInt(jsonrow.getString("idpelicula")));
                     bean.setNombre(jsonrow.getString("nombre"));
+                    bean.setSala(jsonrow.getString("sala"));
+                    bean.setInicio(jsonrow.getString("inicio"));
+                    bean.setFin(jsonrow.getString("fin"));
+                    bean.setIdlocal(jsonrow.getString("idlocal"));
                     peliculas.add(bean);
                 }
             }catch(Exception ex){

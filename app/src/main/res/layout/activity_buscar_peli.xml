@@ -3,49 +3,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.cibertec.webservicerestandroid.BuscarPeliActivity">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <TextView
             android:id="@+id/txtpeli"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Large Text"
+            android:text="PELICULA"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
 
         <TextView
             android:id="@+id/txtsala"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Large Text"
+            android:text="SALA"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
+        <TextView
+            android:id="@+id/txtInicio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="INICIO"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
+        <TextView
+            android:id="@+id/txtFin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FIN"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
+        <TextView
+            android:id="@+id/txtlocal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LOCAL"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
+
         <EditText
+            android:id="@+id/edtdni"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
             android:ems="10"
-            android:id="@+id/edtdni" />
+            android:inputType="number" />
 
         <Button
+            android:id="@+id/btngrabar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Button"
-            android:id="@+id/btngrabar" />
+            android:weightSum="1" />
+
     </LinearLayout>
+
 </RelativeLayout>
