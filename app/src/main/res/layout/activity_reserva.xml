@@ -127,7 +127,7 @@
         android:textAppearance="@android:style/TextAppearance.Holo" />
 
     <TextView
-        android:id="@+id/txtDni"
+        android:id="@+id/txtdni"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/txtfin"
@@ -147,7 +147,7 @@
         android:id="@+id/txtcliente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/txtDni"
+        android:layout_alignStart="@+id/txtdni"
         android:layout_below="@+id/textView13"
         android:layout_marginTop="12dp"
         android:text="cliente" />

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">WebServiceRestAndroid</string>
+    <string name="consultar">Consultar</string>
 </resources>

@@ -29,14 +29,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.35"
-            android:background="@color/colorPrimaryDark" />
+            android:background="@color/colorAccent" />
 
         <Button
             android:id="@+id/btnConsultar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Consultar" />
+            android:text="@string/consultar" />
 
         <ListView
             android:layout_width="match_parent"

@@ -3,8 +3,9 @@ package com.cibertec.webservicerestandroid;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemClickListener{
     EditText edtfecha;
+
     Spinner splocal;
     ListView lst;
     Button btn;
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             LocalBean l= (LocalBean)splocal.getItemAtPosition(splocal.getSelectedItemPosition());
             idlocal =l.getIdlocal();
             fecha = edtfecha.getText().toString();
-            pd=ProgressDialog.show(this,"Conectando","Esperpe porfavor",true,false);
+            pd=ProgressDialog.show(this,"Conectando","Espere porfavor",true,false);
             new Peliculas().execute();
         }
     }
@@ -76,16 +78,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             try{
                 HttpClient cliente= new DefaultHttpClient();
                 HttpContext ctx=new BasicHttpContext();
-                String URL="http://192.168.8.108:8080/WebServiceRestInicial/rest/miservicio/locales";
+                String URL="http://34.239.106.144:8080/restService/ListaLocales";
                 HttpGet get=new HttpGet(URL);
                 HttpResponse response = cliente.execute(get,ctx);
                 HttpEntity entity=response.getEntity();
                 String data = EntityUtils.toString(entity,"UTF-8");
-                JSONObject jsonobj =new JSONObject(data);
-                Object obj=jsonobj.get("localBean");
+                JSONArray jsonobj =new JSONArray(data);
+
+                Log.v("JSON",jsonobj.toString());
                 LocalBean bean;
-                if(obj instanceof JSONArray){
-                    JSONArray jsonarray=(JSONArray)obj;
+                    JSONArray jsonarray=jsonobj;
                     for(int i=0;i<jsonarray.length();i++){
                         JSONObject jsonrow=jsonarray.getJSONObject(i);
                         bean=new LocalBean();
@@ -93,13 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         bean.setNnomlocal(jsonrow.getString("nomlocal"));
                         locales.add(bean);
                     }
-                }else{
-                    JSONObject jsonrow=(JSONObject)obj;
-                    bean=new LocalBean();
-                    bean.setIdlocal(jsonrow.getString("idlocal"));
-                    bean.setNnomlocal(jsonrow.getString("nomlocal"));
-                    locales.add(bean);
-                }
+
             }catch(Exception ex){
                 ex.printStackTrace();
             }
@@ -120,38 +116,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             try{
                 HttpClient cliente= new DefaultHttpClient();
                 HttpContext ctx=new BasicHttpContext();
-                String URL="http://192.168.8.108:8080/WebServiceRestInicial/rest/miservicio/peliculas/"+fecha+"/"+idlocal;
+                String URL="http://34.239.106.144:8080/restService/consultaPelicula?tbLocal="+idlocal+"&fecha="+fecha;
+                Log.v("URL",URL);
                 HttpGet get=new HttpGet(URL);
                 HttpResponse response = cliente.execute(get,ctx);
                 HttpEntity entity=response.getEntity();
                 String data = EntityUtils.toString(entity,"UTF-8");
-                JSONObject jsonobj =new JSONObject(data);
-                Object obj=jsonobj.get("peliculaBean");
+                JSONArray jsonobj =new JSONArray(data);
                 PeliculaBean bean;
-                if(obj instanceof JSONArray){
-                    JSONArray jsonarray=(JSONArray)obj;
-                    for(int i=0;i<jsonarray.length();i++){
-                        JSONObject jsonrow=jsonarray.getJSONObject(i);
-                        bean=new PeliculaBean();
-                        bean.setIdpelicula(Integer.parseInt(jsonrow.getString("idpelicula")));
+                LocalBean beanlocal;
+                    JSONArray jsonarray=jsonobj;
+                        for(int i=0;i<jsonarray.length();i++){
+                        JSONObject jsonrow = jsonarray.getJSONObject(i);
+                        bean = new PeliculaBean();
+                        Log.v("IDPELICULA",bean.getIdpelicula()+"");
+                        bean.setIdpelicula(jsonrow.getInt("codPelicula"));
                         bean.setNombre(jsonrow.getString("nombre"));
                         bean.setSala(jsonrow.getString("sala"));
                         bean.setInicio(jsonrow.getString("inicio"));
                         bean.setFin(jsonrow.getString("fin"));
-                        bean.setIdlocal(jsonrow.getString("idlocal"));
+                        bean.setIdlocal(jsonrow.getString("tbLocal"));
                         peliculas.add(bean);
                     }
-                }else{
-                    JSONObject jsonrow=(JSONObject)obj;
-                    bean=new PeliculaBean();
-                    bean.setIdpelicula(Integer.parseInt(jsonrow.getString("idpelicula")));
-                    bean.setNombre(jsonrow.getString("nombre"));
-                    bean.setSala(jsonrow.getString("sala"));
-                    bean.setInicio(jsonrow.getString("inicio"));
-                    bean.setFin(jsonrow.getString("fin"));
-                    bean.setIdlocal(jsonrow.getString("idlocal"));
-                    peliculas.add(bean);
-                }
+
             }catch(Exception ex){
                 ex.printStackTrace();
             }

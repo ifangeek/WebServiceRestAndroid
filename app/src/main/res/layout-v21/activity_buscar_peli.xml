@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Ingrese DNI" />
+            android:text="DNI" />
 
         <Button
             android:id="@+id/btnValidaDNI"
@@ -61,17 +61,10 @@
             android:text="VALIDA DNI" />
 
         <TextView
-            android:id="@+id/tvNOMBRE"
+            android:id="@+id/tvNombreCli"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="CLIENTE" />
-
-        <EditText
-            android:id="@+id/edtdni"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number" />
 
         <Button
             android:id="@+id/btngrabar"
