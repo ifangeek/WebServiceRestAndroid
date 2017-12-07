@@ -31,11 +31,13 @@ public class BuscarPeliActivity extends AppCompatActivity implements View.OnClic
 
     TextView txtpeli,txtsala,txtinicio,txtfin,txtlocal,txtCliente;
     EditText edtdni;
-    Button btn,btnDNI;
+    Button btnGrabar,btnDNI;
     int id;
     ArrayList<ClienteBean> clientes = new ArrayList<ClienteBean>();
     ProgressDialog pd;
     String resultado="";
+    ClienteBean bean = new ClienteBean();
+    PeliculaBean peli = new PeliculaBean();
     private void iniciaComponente(){
         txtpeli = (TextView)findViewById(R.id.txtpeli);
         txtsala = (TextView)findViewById(R.id.txtsala);
@@ -44,9 +46,9 @@ public class BuscarPeliActivity extends AppCompatActivity implements View.OnClic
         txtlocal = (TextView)findViewById(R.id.txtlocal);
         edtdni = (EditText)findViewById(R.id.edtDNI);
         txtCliente = (TextView)findViewById(R.id.tvNombreCli);
-        //btn = (Button)findViewById(R.id.btngrabar);
+        btnGrabar = (Button)findViewById(R.id.btngrabar);
         btnDNI = (Button)findViewById(R.id.btnValidaDNI);
-       // btn.setOnClickListener(this);
+        btnGrabar.setOnClickListener(this);
         btnDNI.setOnClickListener(this);
     }
     @Override
@@ -65,42 +67,15 @@ public class BuscarPeliActivity extends AppCompatActivity implements View.OnClic
         txtfin.setText(obj.getFin());
         txtlocal.setText(obj.getIdlocal());
         id=obj.getIdpelicula();
+        grabar(btnGrabar);
     }
 
     @Override
     public void onClick(View view) {
         if(view == btnDNI){
-            pd=ProgressDialog.show(this,"conectando","espere porfavor",true,false);
             new Cliente().execute();
         }
-    }
-    public class Pelis extends AsyncTask<String,Void,Object> {
-        @Override
-        protected Object doInBackground(String... strings) {
-            try{
-                HttpClient cliente= new DefaultHttpClient();
-                HttpContext ctx=new BasicHttpContext();
-                String URL="http://34.239.106.144:8080/WebServiceRestInicial/rest/miservicio/grabareserva";
-                HttpPost post=new HttpPost(URL);
-                String data="{dni:"+edtdni.getText()+",idpeli:"+id+"}";
-                StringEntity ent=new StringEntity(data);
-                post.setEntity(ent);
-                post.setHeader("Accept","application/json");
-                post.setHeader("Content-type","application/json");
 
-                HttpResponse response = cliente.execute(post,ctx);
-                HttpEntity entity=response.getEntity();
-                String res = EntityUtils.toString(entity,"UTF-8");
-                resultado = res;
-            }catch(Exception ex){
-                ex.printStackTrace();
-            }
-            return null;
-        }
-        protected void onPostExecute(Object result){
-            Toast.makeText(getApplicationContext(),resultado,Toast.LENGTH_LONG).show();
-            pd.dismiss();
-        }
     }
 
     public class Cliente extends AsyncTask<String,Void,Object> {
@@ -114,34 +89,51 @@ public class BuscarPeliActivity extends AppCompatActivity implements View.OnClic
                 HttpResponse response = cliente.execute(get,ctx);
                 HttpEntity entity=response.getEntity();
                 String data = EntityUtils.toString(entity,"UTF-8");
-                JSONArray jsonobj =new JSONArray(data);
-                Log.v("JSON",edtdni.toString());
-                ClienteBean bean;
-                    JSONArray jsonArray = jsonobj;
-                        for(int i=0;i<jsonArray.length();i++) {
-                            JSONObject jsonrow = jsonArray.getJSONObject(i);
-                            bean = new ClienteBean();
-                            bean.setDni(jsonrow.getString("dni"));
-                            Log.v("JSON",bean.getNombre());
-                            bean.setNombre(jsonrow.getString("nombre"));
+                JSONObject jsonobj =new JSONObject(data);
+
+                            bean.setDni(jsonobj.getString("dni"));
+                            bean.setNombre(jsonobj.getString("nombre"));
                             clientes.add(bean);
-                        }
+                            txtCliente.setText(bean.getNombre());
+
             }catch(Exception ex){
                 ex.printStackTrace();
             }
             return null;
         }
         protected void onPostExecute(Object result){
-            btnDNI.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ClienteBean bean = new ClienteBean();
-                    txtCliente.setText(bean.getNombre());
 
-                }
-            });
 
         }
+
     }
+    public void grabar(View v){
+        btnGrabar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v("paso","XD");
+                Intent i = new Intent(getApplicationContext(), ReservaActivity.class);
+                //txtpeli,txtsala,txtinicio,txtfin,txtlocal,txtCliente
+                i.putExtra("pelicula",txtpeli.getText().toString());
+                Log.v("Peli",txtpeli.getText().toString());
+                i.putExtra("sala",txtsala.getText().toString());
+                i.putExtra("inicio",txtinicio.getText().toString());
+                i.putExtra("fin",txtfin.getText().toString());
+                i.putExtra("local",txtlocal.getText().toString());
+                i.putExtra("cliente",txtCliente.getText().toString());
+                i.putExtra("dni",bean.getDni().toString());
+                i.putExtra("id", ((Integer) id));
+                Log.v("ID",id+"");
+                startActivity(i);
+
+
+            }
+        });
+
+
+
+
+    }
+
 
 }

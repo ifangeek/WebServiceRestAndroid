@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="DNI" />
+            android:text="" />
 
         <Button
             android:id="@+id/btnValidaDNI"
@@ -70,7 +70,7 @@
             android:id="@+id/btngrabar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New Button"
+            android:text="GRABAR RESERVA"
             android:weightSum="1" />
 
     </LinearLayout>

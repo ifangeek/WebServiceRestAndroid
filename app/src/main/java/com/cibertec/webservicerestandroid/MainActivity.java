@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             fecha = edtfecha.getText().toString();
             pd=ProgressDialog.show(this,"Conectando","Espere porfavor",true,false);
             new Peliculas().execute();
+            
         }
     }
     @Override
@@ -135,7 +136,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         bean.setSala(jsonrow.getString("sala"));
                         bean.setInicio(jsonrow.getString("inicio"));
                         bean.setFin(jsonrow.getString("fin"));
-                        bean.setIdlocal(jsonrow.getString("tbLocal"));
+                        JSONObject jsonlocal = jsonrow.getJSONObject("tbLocal");
+                        Log.v("JSON",jsonlocal+"");
+                        bean.setIdlocal(jsonlocal.getString("nomlocal"));
                         peliculas.add(bean);
                     }
 

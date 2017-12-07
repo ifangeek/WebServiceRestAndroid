@@ -78,7 +78,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Button"
-            android:weightSum="1" />
+            android:weightSum="1"
+            android:onClick="grabar"/>
 
     </LinearLayout>
 
